@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "ES2020",
     "module": "commonjs",
-    "lib": ["ES2020", "ES2021", "ES2022", "DOM"],
+    "lib": ["ES2020", "ES2021", "ES2022", "DOM", "ES2020.BigInt", "ES2020.Promise", "ES2020.String", "ES2020.Symbol.WellKnown"],
     "outDir": "./dist",
     "rootDir": "./src",
     "strict": false,
@@ -28,7 +28,7 @@
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "types": ["node"]
+    "types": []
   },
   "include": [
     "src/**/*"
