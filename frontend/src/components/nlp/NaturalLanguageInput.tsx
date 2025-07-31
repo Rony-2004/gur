@@ -67,16 +67,16 @@ export function NaturalLanguageInput() {
 
   return (
     <div className="space-y-6 animate-fade-in">
-      {/* Header */}
-      <div className="flex items-center space-x-3">
-        <div className="w-10 h-10 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl flex items-center justify-center">
-          <Bot className="w-5 h-5 text-white" />
-        </div>
-        <div>
-          <h2 className="text-2xl font-bold text-gray-900">AI-Powered Commands</h2>
-          <p className="text-gray-600">Use natural language to manage your RBAC system</p>
-        </div>
-      </div>
+             {/* Header */}
+       <div className="flex items-center space-x-3">
+         <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl flex items-center justify-center">
+           <Bot className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+         </div>
+         <div>
+           <h2 className="text-xl sm:text-2xl font-bold text-gray-900">AI-Powered Commands</h2>
+           <p className="text-sm sm:text-base text-gray-600">Use natural language to manage your RBAC system</p>
+         </div>
+       </div>
 
       {/* Main Input Card */}
       <Card className="shadow-professional-lg border-0 bg-white/90 backdrop-blur-sm">
@@ -91,37 +91,38 @@ export function NaturalLanguageInput() {
             <label htmlFor="nlp-input" className="block text-sm font-semibold text-gray-700 mb-3">
               Type your command in plain English
             </label>
-            <div className="flex gap-3">
-              <Input
-                id="nlp-input"
-                value={command}
-                onChange={(e) => setCommand(e.target.value)}
-                placeholder="e.g., Create a permission called publish content"
-                onKeyPress={handleKeyPress}
-                className="flex-1 h-12 text-base input-focus"
-                disabled={isProcessing}
-              />
-              <Button 
-                onClick={processCommand} 
-                disabled={isProcessing || !command.trim()}
-                loading={isProcessing}
-                variant="purple"
-                size="lg"
-                className="px-8"
-              >
-                {isProcessing ? (
-                  <>
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    Processing...
-                  </>
-                ) : (
-                  <>
-                    <Sparkles className="w-4 h-4 mr-2" />
-                    Execute
-                  </>
-                )}
-              </Button>
-            </div>
+                         <div className="flex flex-col sm:flex-row gap-3">
+               <Input
+                 id="nlp-input"
+                 value={command}
+                 onChange={(e) => setCommand(e.target.value)}
+                 placeholder="e.g., Create a permission called publish content"
+                 onKeyPress={handleKeyPress}
+                 className="flex-1 h-12 text-base input-focus"
+                 disabled={isProcessing}
+               />
+               <Button 
+                 onClick={processCommand} 
+                 disabled={isProcessing || !command.trim()}
+                 loading={isProcessing}
+                 variant="purple"
+                 size="lg"
+                 className="px-4 sm:px-8"
+               >
+                 {isProcessing ? (
+                   <>
+                     <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                     <span className="hidden sm:inline">Processing...</span>
+                     <span className="sm:hidden">Processing</span>
+                   </>
+                 ) : (
+                   <>
+                     <Sparkles className="w-4 h-4 mr-2" />
+                     Execute
+                   </>
+                 )}
+               </Button>
+             </div>
           </div>
           
           {/* Result Display */}
@@ -157,13 +158,13 @@ export function NaturalLanguageInput() {
             </div>
           )}
           
-          {/* Example Commands */}
-          <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-6 border border-purple-100">
-            <h3 className="font-semibold text-purple-800 mb-4 flex items-center">
-              <Sparkles className="w-4 h-4 mr-2" />
-              Example Commands
-            </h3>
-            <div className="grid gap-3">
+                     {/* Example Commands */}
+           <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-4 sm:p-6 border border-purple-100">
+             <h3 className="font-semibold text-purple-800 mb-4 flex items-center">
+               <Sparkles className="w-4 h-4 mr-2" />
+               Example Commands
+             </h3>
+             <div className="grid gap-3">
               <div className="space-y-2">
                 <p className="text-sm font-medium text-purple-700">Create Permissions:</p>
                                  <div className="space-y-1">

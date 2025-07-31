@@ -85,27 +85,28 @@ export function PermissionList() {
 
   return (
     <div className="space-y-6 animate-fade-in">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center">
-            <Shield className="w-5 h-5 text-white" />
-          </div>
-          <div>
-            <h2 className="text-2xl font-bold text-gray-900">Permissions</h2>
-            <p className="text-gray-600">Manage system permissions and access controls</p>
-          </div>
-        </div>
-        <Button
-          onClick={() => setIsCreateDialogOpen(true)}
-          variant="default"
-          size="lg"
-          animate
-        >
-          <Plus className="w-4 h-4 mr-2" />
-          Add Permission
-        </Button>
-      </div>
+             {/* Header */}
+       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+         <div className="flex items-center space-x-3">
+           <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center">
+             <Shield className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+           </div>
+           <div>
+             <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Permissions</h2>
+             <p className="text-sm sm:text-base text-gray-600">Manage system permissions and access controls</p>
+           </div>
+         </div>
+         <Button
+           onClick={() => setIsCreateDialogOpen(true)}
+           variant="default"
+           size="lg"
+           animate
+           className="w-full sm:w-auto"
+         >
+           <Plus className="w-4 h-4 mr-2" />
+           Add Permission
+         </Button>
+       </div>
 
       {/* Search Bar */}
       <div className="relative animate-slide-in-left" style={{ animationDelay: '0.2s' }}>
@@ -163,24 +164,24 @@ export function PermissionList() {
               </CardContent>
             </Card>
           ) : (
-            filteredPermissions.map((permission, index) => (
-              <Card key={permission.id} className="card-animate animate-fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-4">
-                      <div className="w-12 h-12 bg-gradient-to-r from-blue-100 to-indigo-100 rounded-xl flex items-center justify-center">
-                        <Shield className="w-6 h-6 text-blue-600" />
-                      </div>
-                      <div>
-                        <h3 className="text-lg font-semibold text-gray-900">{permission.name}</h3>
-                        <p className="text-gray-600">{permission.description || 'No description provided'}</p>
-                        <p className="text-sm text-gray-500 mt-1">
-                          Created {new Date(permission.created_at).toLocaleDateString()}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                                             <Button
+                         filteredPermissions.map((permission, index) => (
+               <Card key={permission.id} className="card-animate animate-fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
+                 <CardContent className="p-4 sm:p-6">
+                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                     <div className="flex items-center space-x-3 sm:space-x-4">
+                       <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-blue-100 to-indigo-100 rounded-xl flex items-center justify-center">
+                         <Shield className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" />
+                       </div>
+                       <div className="flex-1 min-w-0">
+                         <h3 className="text-base sm:text-lg font-semibold text-gray-900 truncate">{permission.name}</h3>
+                         <p className="text-sm sm:text-base text-gray-600 line-clamp-2">{permission.description || 'No description provided'}</p>
+                         <p className="text-xs sm:text-sm text-gray-500 mt-1">
+                           Created {new Date(permission.created_at).toLocaleDateString()}
+                         </p>
+                       </div>
+                     </div>
+                     <div className="flex items-center space-x-2 self-end sm:self-auto">
+                       <Button
                          variant="info"
                          size="sm"
                          onClick={() => {
@@ -199,11 +200,11 @@ export function PermissionList() {
                        >
                          <XCircle className="w-4 h-4" />
                        </Button>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))
+                     </div>
+                   </div>
+                 </CardContent>
+               </Card>
+             ))
           )}
         </div>
       )}

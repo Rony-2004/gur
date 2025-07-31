@@ -53,16 +53,16 @@ export function LoginForm({ onLogin }: LoginFormProps) {
         <Card className="w-full max-w-md shadow-professional-lg border-0 bg-white/90 backdrop-blur-sm hover-lift">
           <CardHeader className="text-center pb-6 animate-fade-in">
             {/* Animated Logo */}
-            <div className="mx-auto w-16 h-16 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl flex items-center justify-center mb-6 animate-scale-in hover-scale">
-              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="mx-auto w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl flex items-center justify-center mb-4 sm:mb-6 animate-scale-in hover-scale">
+              <svg className="w-6 h-6 sm:w-8 sm:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
               </svg>
             </div>
             
-            <CardTitle className="text-3xl font-bold gradient-text animate-fade-in" style={{ animationDelay: '0.2s' }}>
+            <CardTitle className="text-2xl sm:text-3xl font-bold gradient-text animate-fade-in" style={{ animationDelay: '0.2s' }}>
               RBAC Configuration Tool
             </CardTitle>
-            <CardDescription className="text-gray-600 mt-3 animate-fade-in" style={{ animationDelay: '0.4s' }}>
+            <CardDescription className="text-sm sm:text-base text-gray-600 mt-3 animate-fade-in" style={{ animationDelay: '0.4s' }}>
               Sign in to manage roles and permissions
             </CardDescription>
           </CardHeader>
