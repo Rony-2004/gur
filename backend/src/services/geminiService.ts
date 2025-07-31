@@ -92,6 +92,8 @@ Examples:
 - "Create a permission called publish content" → {"action": "create_permission", "parameters": {"name": "publish_content", "description": "Permission to publish content"}, "confidence": 0.95}
 - "Create role editor" → {"action": "create_role", "parameters": {"name": "editor", "description": "Editor role"}, "confidence": 0.95}
 - "Give editor permission to delete posts" → {"action": "assign_permission", "parameters": {"role_name": "editor", "permission_name": "delete_posts"}, "confidence": 0.95}
+- "Let editors delete posts" → {"action": "assign_permission", "parameters": {"role_name": "editor", "permission_name": "delete_posts"}, "confidence": 0.95}
+- "Assign delete posts to editor" → {"action": "assign_permission", "parameters": {"role_name": "editor", "permission_name": "delete_posts"}, "confidence": 0.95}
 - "Show all permissions" → {"action": "list_permissions", "parameters": {}, "confidence": 0.95}
 
 Respond only with valid JSON:
@@ -226,41 +228,79 @@ Respond only with valid JSON:
       const roles = await databaseService.getAllRoles()
       const permissions = await databaseService.getAllPermissions()
 
-      const role = roles.find(r => r.name.toLowerCase() === role_name.toLowerCase())
-      const permission = permissions.find(p => p.name.toLowerCase() === permission_name.toLowerCase())
+      let role = roles.find(r => r.name.toLowerCase() === role_name.toLowerCase())
+      let permission = permissions.find(p => p.name.toLowerCase() === permission_name.toLowerCase())
 
+      // If role doesn't exist, create it automatically
       if (!role) {
-        return {
-          success: false,
-          action: 'assign_permission',
-          message: `Role "${role_name}" not found.`,
-          parsedCommand: parsed
+        try {
+          const newRole = await databaseService.createRole({
+            name: role_name.charAt(0).toUpperCase() + role_name.slice(1),
+            description: `${role_name} role`
+          })
+          // Convert to RoleWithPermissions format
+          role = {
+            ...newRole,
+            permissions: []
+          }
+        } catch (createError) {
+          return {
+            success: false,
+            action: 'assign_permission',
+            message: `Failed to create role "${role_name}". ${createError instanceof Error ? createError.message : 'Unknown error'}`,
+            parsedCommand: parsed
+          }
         }
       }
 
+      // If permission doesn't exist, create it automatically
       if (!permission) {
-        return {
-          success: false,
-          action: 'assign_permission',
-          message: `Permission "${permission_name}" not found.`,
-          parsedCommand: parsed
+        try {
+          const newPermission = await databaseService.createPermission({
+            name: permission_name.toLowerCase().replace(/\s+/g, '_'),
+            description: `Permission to ${permission_name}`
+          })
+          // Convert to PermissionWithRoles format
+          permission = {
+            ...newPermission,
+            roles: []
+          }
+        } catch (createError) {
+          return {
+            success: false,
+            action: 'assign_permission',
+            message: `Failed to create permission "${permission_name}". ${createError instanceof Error ? createError.message : 'Unknown error'}`,
+            parsedCommand: parsed
+          }
         }
       }
 
       await databaseService.assignPermissionToRole(role.id, permission.id)
 
+      const wasRoleCreated = !roles.find(r => r.name.toLowerCase() === role_name.toLowerCase())
+      const wasPermissionCreated = !permissions.find(p => p.name.toLowerCase() === permission_name.toLowerCase())
+      
+      let message = `Successfully assigned permission "${permission_name}" to role "${role_name}"`
+      if (wasRoleCreated && wasPermissionCreated) {
+        message += ' (both role and permission were created automatically)'
+      } else if (wasRoleCreated) {
+        message += ' (role was created automatically)'
+      } else if (wasPermissionCreated) {
+        message += ' (permission was created automatically)'
+      }
+
       return {
         success: true,
         action: 'assign_permission',
         data: { role, permission },
-        message: `Successfully assigned permission "${permission_name}" to role "${role_name}"`,
+        message,
         parsedCommand: parsed
       }
     } catch (error) {
       console.error('Error assigning permission:', error)
       
       // Check if it's a duplicate assignment error
-      if (error instanceof Error && error.message.includes('Unique constraint')) {
+      if (error instanceof Error && error.message.includes('already assigned')) {
         return {
           success: false,
           action: 'assign_permission',

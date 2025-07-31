@@ -19,7 +19,26 @@ const PORT = process.env.PORT || 5000;
 // Middleware
 app.use(helmet());
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    const allowedOrigins = [
+      'http://localhost:3000',
+      'https://gur-beige.vercel.app',
+      'https://gur-frontend.vercel.app',
+      'https://gur.vercel.app',
+      'https://gur-frontend-git-main-rony-2004.vercel.app',
+      'https://gur-git-main-rony-2004.vercel.app'
+    ];
+    
+    // Check if origin is in allowed list or if it's a Vercel preview URL
+    if (allowedOrigins.includes(origin) || origin.includes('.vercel.app')) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true
 }));
 app.use(express.json());
