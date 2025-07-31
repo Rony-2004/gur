@@ -6,7 +6,8 @@ import { PermissionList } from '@/components/permissions/PermissionList'
 import { RoleList } from '@/components/roles/RoleList'
 import { RolePermissionManager } from '@/components/rbac/RolePermissionManager'
 import { NaturalLanguageInput } from '@/components/nlp/NaturalLanguageInput'
-import { User, Shield, Users, Link, Sparkles, LogOut } from 'lucide-react'
+import { Shield, Users, Link, Sparkles, LogOut, User as UserIcon } from 'lucide-react'
+import { User } from '@/types'
 import { mockAPI } from '@/lib/mockData'
 
 interface DashboardProps {
@@ -59,7 +60,7 @@ export function Dashboard({ user, onLogout }: DashboardProps) {
             </div>
             <div className="flex items-center space-x-4 animate-slide-in-right">
               <div className="flex items-center space-x-2 bg-gray-50 px-4 py-2 rounded-xl hover-lift">
-                <User className="w-4 h-4 text-gray-600" />
+                <UserIcon className="w-4 h-4 text-gray-600" />
                 <span className="text-sm font-medium text-gray-700">{user.email}</span>
               </div>
               <Button 
