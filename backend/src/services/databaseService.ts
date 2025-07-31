@@ -110,7 +110,7 @@ class DatabaseService {
   }
 
   async getRoleById(id: string): Promise<RoleWithPermissions | null> {
-    return prisma.role.findUnique({
+    const role = await prisma.role.findUnique({
       where: { id },
       include: {
         permissions: {
@@ -120,6 +120,13 @@ class DatabaseService {
         }
       }
     })
+    
+    if (!role) return null
+    
+    return {
+      ...role,
+      permissions: role.permissions.map(rp => rp.permission)
+    }
   }
 
   async updateRole(id: string, data: Partial<CreateRoleData>): Promise<Role> {
@@ -136,7 +143,7 @@ class DatabaseService {
   }
 
   async getAllRoles(): Promise<RoleWithPermissions[]> {
-    return prisma.role.findMany({
+    const roles = await prisma.role.findMany({
       include: {
         permissions: {
           include: {
@@ -145,6 +152,11 @@ class DatabaseService {
         }
       }
     })
+    
+    return roles.map(role => ({
+      ...role,
+      permissions: role.permissions.map(rp => rp.permission)
+    }))
   }
 
   // Permission operations
@@ -155,7 +167,7 @@ class DatabaseService {
   }
 
   async getPermissionById(id: string): Promise<PermissionWithRoles | null> {
-    return prisma.permission.findUnique({
+    const permission = await prisma.permission.findUnique({
       where: { id },
       include: {
         roles: {
@@ -165,6 +177,13 @@ class DatabaseService {
         }
       }
     })
+    
+    if (!permission) return null
+    
+    return {
+      ...permission,
+      roles: permission.roles.map(rp => rp.role)
+    }
   }
 
   async updatePermission(id: string, data: Partial<CreatePermissionData>): Promise<Permission> {
@@ -181,7 +200,7 @@ class DatabaseService {
   }
 
   async getAllPermissions(): Promise<PermissionWithRoles[]> {
-    return prisma.permission.findMany({
+    const permissions = await prisma.permission.findMany({
       include: {
         roles: {
           include: {
@@ -190,6 +209,11 @@ class DatabaseService {
         }
       }
     })
+    
+    return permissions.map(permission => ({
+      ...permission,
+      roles: permission.roles.map(rp => rp.role)
+    }))
   }
 
   // Role-Permission operations
