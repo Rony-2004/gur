@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "build": "tsc",
+    "build:render": "npx prisma generate && tsc",
     "start": "node dist/index.js",
     "setup": "tsx scripts/setup.ts",
     "db:generate": "prisma generate",
@@ -13,7 +14,7 @@
     "db:reset": "prisma migrate reset",
     "db:studio": "prisma studio",
     "db:seed": "tsx scripts/setup.ts",
-    "postinstall": "prisma generate"
+    "postinstall": "npx prisma generate || echo 'Prisma generate failed, continuing...'"
   },
   "keywords": [
     "rbac",
