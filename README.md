@@ -70,13 +70,6 @@ DATABASE_URL="postgresql://username:password@localhost:5432/rbac_tool?schema=pub
 
 # Server Configuration
 PORT=5001
-NODE_ENV=development
-
-# JWT Configuration
-JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
-
-# CORS Configuration
-FRONTEND_URL=http://localhost:3000
 
 # AI Configuration
 GEMINI_API_KEY=your-gemini-api-key-here
