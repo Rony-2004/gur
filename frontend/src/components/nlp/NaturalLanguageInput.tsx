@@ -142,11 +142,11 @@ export function NaturalLanguageInput() {
                     {result.success ? 'Success!' : 'Error'}
                   </p>
                                      <p className="text-sm whitespace-pre-wrap">{result.message}</p>
-                   {result.data && (
+                   {(result.data && typeof result.data === 'object') ? (
                      <div className="mt-2 p-2 bg-white/50 rounded text-xs">
                        <pre className="whitespace-pre-wrap">{JSON.stringify(result.data as Record<string, unknown>, null, 2)}</pre>
                      </div>
-                   )}
+                   ) : null}
                 </div>
               </div>
             </div>
