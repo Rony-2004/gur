@@ -3,11 +3,11 @@
 import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog'
 import { mockAPI } from '@/lib/mockData'
 import { Permission } from '@/types'
-import { Plus, Edit, Trash2, Search, Shield, CheckCircle, XCircle } from 'lucide-react'
+import { Plus, Edit, Search, Shield, CheckCircle, XCircle } from 'lucide-react'
 
 export function PermissionList() {
   const [permissions, setPermissions] = useState<Permission[]>([])

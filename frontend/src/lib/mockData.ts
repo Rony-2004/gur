@@ -57,7 +57,7 @@ export let rolePermissions: RolePermission[] = [
   { role_id: '3', permission_id: '3' }
 ]
 
-export let users: User[] = [
+export const users: User[] = [
   {
     id: '1',
     email: 'admin@example.com',
