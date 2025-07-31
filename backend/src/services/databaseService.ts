@@ -104,6 +104,20 @@ class DatabaseService {
 
   // Role operations
   async createRole(data: CreateRoleData): Promise<Role> {
+    // Check if role with same name already exists
+    const existingRole = await prisma.role.findFirst({
+      where: {
+        name: {
+          equals: data.name,
+          mode: 'insensitive' // Case-insensitive comparison
+        }
+      }
+    })
+
+    if (existingRole) {
+      throw new Error(`Role "${data.name}" already exists`)
+    }
+
     return prisma.role.create({
       data
     })
@@ -161,6 +175,20 @@ class DatabaseService {
 
   // Permission operations
   async createPermission(data: CreatePermissionData): Promise<Permission> {
+    // Check if permission with same name already exists
+    const existingPermission = await prisma.permission.findFirst({
+      where: {
+        name: {
+          equals: data.name,
+          mode: 'insensitive' // Case-insensitive comparison
+        }
+      }
+    })
+
+    if (existingPermission) {
+      throw new Error(`Permission "${data.name}" already exists`)
+    }
+
     return prisma.permission.create({
       data
     })
@@ -218,6 +246,20 @@ class DatabaseService {
 
   // Role-Permission operations
   async assignPermissionToRole(roleId: string, permissionId: string): Promise<RolePermission> {
+    // Check if assignment already exists
+    const existingAssignment = await prisma.rolePermission.findUnique({
+      where: {
+        roleId_permissionId: {
+          roleId,
+          permissionId
+        }
+      }
+    })
+
+    if (existingAssignment) {
+      throw new Error('Permission is already assigned to this role')
+    }
+
     return prisma.rolePermission.create({
       data: {
         roleId,

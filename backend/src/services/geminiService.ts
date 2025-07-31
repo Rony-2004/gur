@@ -144,10 +144,21 @@ Respond only with valid JSON:
       }
     } catch (error) {
       console.error('Error creating permission:', error)
+      
+      // Check if it's a duplicate error
+      if (error instanceof Error && error.message.includes('already exists')) {
+        return {
+          success: false,
+          action: 'create_permission',
+          message: error.message,
+          parsedCommand: parsed
+        }
+      }
+      
       return {
         success: false,
         action: 'create_permission',
-        message: 'Failed to create permission. It might already exist.',
+        message: 'Failed to create permission. Please try again.',
         parsedCommand: parsed
       }
     }
@@ -179,10 +190,21 @@ Respond only with valid JSON:
       }
     } catch (error) {
       console.error('Error creating role:', error)
+      
+      // Check if it's a duplicate error
+      if (error instanceof Error && error.message.includes('already exists')) {
+        return {
+          success: false,
+          action: 'create_role',
+          message: error.message,
+          parsedCommand: parsed
+        }
+      }
+      
       return {
         success: false,
         action: 'create_role',
-        message: 'Failed to create role. It might already exist.',
+        message: 'Failed to create role. Please try again.',
         parsedCommand: parsed
       }
     }
@@ -236,10 +258,21 @@ Respond only with valid JSON:
       }
     } catch (error) {
       console.error('Error assigning permission:', error)
+      
+      // Check if it's a duplicate assignment error
+      if (error instanceof Error && error.message.includes('Unique constraint')) {
+        return {
+          success: false,
+          action: 'assign_permission',
+          message: `Permission "${parsed.parameters.permission_name}" is already assigned to role "${parsed.parameters.role_name}".`,
+          parsedCommand: parsed
+        }
+      }
+      
       return {
         success: false,
         action: 'assign_permission',
-        message: 'Failed to assign permission. It might already be assigned.',
+        message: 'Failed to assign permission. Please try again.',
         parsedCommand: parsed
       }
     }
